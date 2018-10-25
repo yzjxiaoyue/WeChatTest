@@ -1,0 +1,91 @@
+{% extends "mongonaut/base.html" %}
+{% load url from future %}
+{% load mongonaut_tags %}
+
+{% block breadcrumbs %}
+<li><a href="{% url "index" %}">Mongonaut</a> <span class="divider">/</span></li>
+<li><a href="">{{ document_name }}s</a></li>
+{% endblock %}
+
+
+{% block content %}
+
+<h1>{{ document_name }} List</h1>
+
+{% if search_field %}
+    <form action="" method="get" class="form-search">
+        <input type="text" name="q" class="input-medium search-query">
+        <input type="submit" class="btn small info" value="search">
+    </form>
+{% endif %}
+{% if has_add_permission %}
+    <p>
+        <a class="btn btn-primary" href="{% url "document_detail_add_form" app_label document_name %}">
+            <i class="icon-plus icon-white"></i> Add
+        </a>
+    </p>
+{% endif %}
+{% if request.user.is_superuser %}
+    <form action="" method="post">
+    {% csrf_token %}
+    {% include "mongonaut/actions/action_buttons.html" %}
+{% endif %}
+    <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            {% if request.user.is_superuser %}<th><input type="checkbox" name="check_all" /></th>{% endif %}
+            {% for key in keys %}
+                <th>{{ key }}</th>
+            {% endfor %}
+        </tr>
+    </thead>
+        
+    {% for obj in object_list %}
+        <tr>
+            {% if request.user.is_superuser %}<td><input type="checkbox" name="mongo_id" value="{{ obj.id }}" /></td>{% endif %}
+            {% for key in keys %}
+                {% if key == 'id' %}
+                    <td><a href="{% url "document_detail" app_label document_name obj.id %}">{{ obj.id }}</a></td>                                
+                {% else %}
+                    <td>{% get_document_value obj key %}</td>                
+                {% endif %}
+
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>    
+{% if request.user.is_superuser %}
+    {% include "mongonaut/actions/action_buttons.html" %}
+{% endif %}
+</form>
+
+<div class="pagination">
+  <ul>
+        {% if has_previous_page %}
+            <li class="prev"><a href="?page={{ previous_page_number }}">&larr; Previous</a></li>
+        {% endif %}
+        <li class="active"><a href="#">{{ page }} of {{ total_pages }}</a></li>
+        {% if has_next_page %}
+            <li class="next"><a href="?page={{ next_page_number }}">Next &rarr;</a></li>
+        {% endif %}
+  </ul>
+</div>
+
+
+{% endblock %}
+
+{% block extrajs %}
+<script type="text/javascript">
+$(function() {
+    $('input[name="check_all"]').click ( function() {
+        if ($(this).is(":checked" )){
+            $('input[name="mongo_id"]').prop("checked", true);
+        }       
+        else
+         {
+            $('input[name="mongo_id"]').prop("checked", false);
+         }
+    });
+});
+</script>
+{% endblock %}
