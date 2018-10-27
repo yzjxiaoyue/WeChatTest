@@ -11,7 +11,7 @@ from itchat.content import *
 msg_dict = {}
 
 # 文件存储临时目录
-rev_tmp_dir = "D:/WechatRobotMessage/"
+rev_tmp_dir = "./Wechat_File/"
 if not os.path.exists(rev_tmp_dir): os.mkdir(rev_tmp_dir)
 
 # 表情有一个问题 | 接受信息和接受note的msg_id不一致 巧合解决方案
