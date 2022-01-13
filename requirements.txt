@@ -16,7 +16,7 @@ MarkupSafe==1.0
 matplotlib==3.0.1
 numpy==1.15.3
 pandas==0.23.4
-Pillow==5.3.0
+Pillow==9.0.0
 pyecharts==0.5.11
 pyecharts-javascripthon==0.0.6
 pyecharts-jupyter-installer==0.0.3
