@@ -14,7 +14,7 @@ lml==0.0.2
 macropy3==1.1.0b2
 MarkupSafe==1.0
 matplotlib==3.0.1
-numpy==1.15.3
+numpy==1.22.0
 pandas==0.23.4
 Pillow==5.3.0
 pyecharts==0.5.11
